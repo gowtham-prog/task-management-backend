@@ -1,6 +1,5 @@
 const Joi = require("joi");
 
-// Define the Joi schema for task validation
 const taskSchema = Joi.object({
   name: Joi.string().min(3).required().messages({
     "string.base": `"name" should be a type of 'text'`,
@@ -31,11 +30,9 @@ const taskSchema = Joi.object({
 
 const validateTask = async (req, res, next) => {
   try {
-    // Validate the request body against the Joi schema
     await taskSchema.validateAsync(req.body);
-    next(); // If validation is successful, proceed to the next middleware or route handler
+    next();
   } catch (err) {
-    // If validation fails, send a 400 response with the error details
     res.status(400).json({ error: err.details[0].message });
   }
 };

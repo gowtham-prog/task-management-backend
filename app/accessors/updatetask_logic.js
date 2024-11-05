@@ -1,22 +1,20 @@
-const Task = require("../models/task.model"); // Adjust the path as necessary
+const Task = require("../models/task.model");
 
-const updatetask_logic = async (taskId, updateData) => {
+const updateTask_logic = async (taskId, updateData) => {
   try {
-    // Find the task by ID and update it with the provided data
     const updatedTask = await Task.findByIdAndUpdate(taskId, updateData, {
-      new: true, // Return the modified document rather than the original
-      runValidators: true, // Run schema validators on the updated data
+      new: true,
+      runValidators: true,
     });
 
-    // If the task was not found, throw an error
     if (!updatedTask) {
       throw new Error("Task not found");
     }
 
-    return updatedTask; // Return the updated task
+    return updatedTask;
   } catch (err) {
-    throw err; // Pass the error to the next level
+    throw err;
   }
 };
 
-module.exports = updatetask_logic;
+module.exports = updateTask_logic;

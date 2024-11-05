@@ -1,4 +1,4 @@
-const deletetask_logic = require("../accessors/deleteTask_logic"); // Adjust the path as necessary
+const deletetask_logic = require("../accessors/deleteTask_logic");
 
 const deleteTask = async (req, res) => {
   const { taskId } = req.params;

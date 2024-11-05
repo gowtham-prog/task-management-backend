@@ -1,15 +1,14 @@
-const Task = require("../models/task.model"); // Adjust the path as necessary
+const Task = require("../models/task.model");
 
 const allTasks_logic = async () => {
   try {
-    // Retrieve all tasks from the database
     const tasks = await Task.find()
-      .populate("user", "firstName lastName email") // Populate user details if needed
-      .exec(); // Execute the query
+      .populate("user", "firstName lastName email")
+      .exec();
 
-    return tasks; // Return the retrieved tasks
+    return tasks;
   } catch (err) {
-    throw err; // Pass the error to the next level
+    throw err;
   }
 };
 

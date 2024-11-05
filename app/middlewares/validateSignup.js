@@ -1,6 +1,5 @@
 const Joi = require("joi");
 
-// Signup validation schema
 const signupSchema = Joi.object({
   firstName: Joi.string().min(1).required().messages({
     "string.empty": "First name is required",

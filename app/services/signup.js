@@ -16,7 +16,6 @@ const signup = async (req, res, next) => {
       },
     });
   } catch (err) {
-    // Handle any errors (e.g., duplicate email) and send a response
     res.status(400).json({ error: err.message });
   }
 };

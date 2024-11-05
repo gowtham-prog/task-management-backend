@@ -1,4 +1,4 @@
-const alltasks_logic = require("../accessors/allTasks_logic"); // Adjust the path as necessary
+const alltasks_logic = require("../accessors/allTasks_logic");
 
 const allTasks = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ const allTasks = async (req, res) => {
       tasks,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message }); // Internal Server Error
+    res.status(500).json({ error: err.message });
   }
 };
 

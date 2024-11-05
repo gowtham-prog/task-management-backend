@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secretKey = "1234"; // You should ideally store this in an environment variable
+const secretKey = "1234";
 
 const validatetoken = (req, res, next) => {
   const token = req.headers.authorization
@@ -10,19 +10,24 @@ const validatetoken = (req, res, next) => {
     if (token) {
       jwt.verify(token, secretKey, (err, decoded) => {
         if (err) {
-          return res.status(401).json({ message: "Invalid token. Access denied." });
+          return res
+            .status(401)
+            .json({ message: "Invalid token. Access denied." });
         } else {
-          req.user = decoded; // Store the decoded token payload in req.user
+          req.user = decoded;
           next();
         }
       });
     } else {
-      // No token provided
-      return res.status(401).json({ message: "No token provided. Access denied." });
+      return res
+        .status(401)
+        .json({ message: "No token provided. Access denied." });
     }
   } catch (error) {
     console.error("Error verifying token:", error);
-    return res.status(401).json({ message: "Token verification failed. Access denied." });
+    return res
+      .status(401)
+      .json({ message: "Token verification failed. Access denied." });
   }
 };
 

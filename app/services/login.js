@@ -12,7 +12,6 @@ const login = async (req, res) => {
       user,
     });
   } catch (err) {
-    // Send a response with a 401 status code for authentication errors
     res.status(401).json({ error: err.message });
   }
 };

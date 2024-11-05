@@ -1,18 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors"); // Import cors
+const cors = require("cors");
 const app = express();
 
 const appRoute = require("./app/routes/appRoute");
 const userRoute = require("./app/routes/userRoute");
 const validateToken = require("./app/middlewares/validateToken");
 
-// Configure CORS options
 const corsOptions = {
-    origin: ["http://localhost:3000", "https://your-other-origin.com"], // Replace with your allowed origins
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Allow cookies to be sent with requests
-    optionsSuccessStatus: 200 // For legacy browser support
+  origin: ["http://localhost:3000"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
