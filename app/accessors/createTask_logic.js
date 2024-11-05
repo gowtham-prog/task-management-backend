@@ -1,9 +1,10 @@
 const Task = require("../models/task.model");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const createTask_logic = async (token, data) => {
   try {
-    const decoded = jwt.verify(token, "1234");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const userId = decoded.userId;
 
