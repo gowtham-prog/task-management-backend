@@ -8,7 +8,7 @@ const userRoute = require("./app/routes/userRoute");
 const validateToken = require("./app/middlewares/validateToken");
 
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,
