@@ -1,4 +1,4 @@
-const updateTask_logic = require("../accessors/updateTask_logic");
+const updateTask_logic = require("../accessors/updatetask_logic");
 
 const updateTask = async (req, res) => {
   const { taskId } = req.params;
