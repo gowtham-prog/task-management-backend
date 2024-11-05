@@ -1,5 +1,5 @@
 const Task = require("../models/task.model");
-const updateTask_logic = require("../accessors/updateTask_logic");
+const updateTask_logic = require("../accessors/updatetask_logic");
 
 jest.mock("../models/task.model");
 
