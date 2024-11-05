@@ -1,63 +1,46 @@
-const Task = require("../models/task.model");
 const allTasks_logic = require("../accessors/allTasks_logic");
+const Task = require("../models/task.model");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 jest.mock("../models/task.model");
 
 describe("allTasks_logic", () => {
+  const userId = "testUserId";
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET);
+  const mockTasks = [
+    { _id: "task1", title: "Test Task 1", user: userId },
+    { _id: "task2", title: "Test Task 2", user: userId },
+  ];
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    Task.find.mockClear();
   });
 
-  it("should return a list of tasks with populated user fields", async () => {
-    const mockTasks = [
-      {
-        _id: "task1",
-        name: "test_1",
-        description: "test_1",
-        user: {
-          _id: "test_1",
-          firstName: "test_1",
-          lastName: "test_1",
-          email: "test_1@example.com",
-        },
-      },
-      {
-        _id: "task2",
-        name: "test_2",
-        description: "test_2",
-        user: {
-          _id: "test_2",
-          firstName: "test_2",
-          lastName: "test_2",
-          email: "test_2@example.com",
-        },
-      },
-    ];
-
+  it("should return tasks for a given userId", async () => {
     Task.find.mockReturnValue({
-      populate: jest.fn().mockReturnThis(),
-      exec: jest.fn().mockResolvedValue(mockTasks),
+      populate: jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(mockTasks),
+      }),
     });
 
-    const tasks = await allTasks_logic();
+    const tasks = await allTasks_logic(token);
 
+    expect(Task.find).toHaveBeenCalledWith({ user: userId });
     expect(tasks).toEqual(mockTasks);
-    expect(Task.find).toHaveBeenCalled();
-    expect(Task.find().populate).toHaveBeenCalledWith(
-      "user",
-      "firstName lastName email"
-    );
-    expect(Task.find().exec).toHaveBeenCalled();
   });
 
-  it("should throw an error if there is a problem fetching tasks", async () => {
-    const mockError = new Error("Database error");
+  it("should throw an error if token is invalid", async () => {
+    const invalidToken = "invalidToken";
 
-    Task.find.mockReturnValue({
-      populate: jest.fn().mockReturnThis(),
-      exec: jest.fn().mockRejectedValue(mockError),
-    });
+    await expect(allTasks_logic(invalidToken)).rejects.toThrow();
+  });
 
-    await expect(allTasks_logic()).rejects.toThrow("Database error");
+  it("should throw an error if userId is not present in the token", async () => {
+    const tokenWithoutUserId = jwt.sign({}, process.env.JWT_SECRET);
+
+    await expect(allTasks_logic(tokenWithoutUserId)).rejects.toThrow(
+      "User ID not found in token"
+    );
   });
 });
